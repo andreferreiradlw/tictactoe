@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['alloy', 'alloy/typescript', 'next/core-web-vitals', 'plugin:jest/recommended'],
+  extends: ['alloy', 'alloy/typescript', 'plugin:jest/recommended'],
   env: {
     browser: true,
     es2021: true,
