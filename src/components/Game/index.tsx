@@ -2,21 +2,12 @@ import { useState, useEffect, useMemo } from 'react';
 // types
 import type { Marks, CellType } from '../../types/Marks';
 // styles
-import {
-  Container,
-  Score,
-  ScoreCards,
-  Versus,
-  PlayerInputContainer,
-  PlayerInput,
-  SubHeader,
-  CurrentTurn,
-  RestartBtn,
-} from './Game.styles';
+import { Container, Score, ScoreCards, Versus, PlayerInputContainer, PlayerInput } from './Game.styles';
 // helpers
 import calculateWinner from '../../utils/winner';
 // components
 import PlayerCard from '../PlayerCard';
+import Subheader from '../Subheader';
 import Board from '../Board';
 import Modal from '../Modal';
 // sounds
@@ -24,9 +15,6 @@ import Click from '../../sounds/sounds_click.wav';
 import GameOver from '../../sounds/sounds_game_over.wav';
 // icons
 import { ReactComponent as EnterKey } from '../../icons/enter_key.svg';
-import { ReactComponent as XMarkIcon } from '../../icons/x_mark.svg';
-import { ReactComponent as OMarkIcon } from '../../icons/o_mark.svg';
-import { ReactComponent as RestartIcon } from '../../icons/restart.svg';
 
 const TicTacToe = (): JSX.Element => {
   // players
@@ -124,21 +112,21 @@ const TicTacToe = (): JSX.Element => {
 
       {playerOne && playerTwo && (
         <>
-          <SubHeader>
-            <CurrentTurn>
-              <p data-testid="currentTurn">{`${currentPlayer}'s Turn`}</p>
-              {currentPlayer === playerOne ? <XMarkIcon /> : <OMarkIcon />}
-            </CurrentTurn>
-            <RestartBtn onClick={restartGame}>
-              <RestartIcon />
-            </RestartBtn>
-          </SubHeader>
+          {/** subheader */}
+          <Subheader
+            playerName={currentPlayer}
+            isPlayerOne={currentPlayer === playerOne}
+            onRestart={restartGame}
+            data-testid="gameSubheader"
+          />
           {/** board */}
-          <Board boardCells={cells} onCellClick={onCellClick} />
+          <Board boardCells={cells} onCellClick={onCellClick} data-testid="gameBoard" />
           {/** winner modal */}
-          {winner && <Modal onRestart={restartGame}>{`${winner} takes the win!`}</Modal>}
+          {winner && <Modal onRestart={restartGame} data-testid="gameWinModal">{`${winner} takes the win!`}</Modal>}
           {/** tie modal */}
-          {isBoardFull(cells) && !winner && <Modal onRestart={restartGame}>{`It'\s a tie!`}</Modal>}
+          {isBoardFull(cells) && !winner && (
+            <Modal onRestart={restartGame} data-testid="gameTieModal">{`It'\s a tie!`}</Modal>
+          )}
         </>
       )}
     </Container>
