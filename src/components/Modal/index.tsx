@@ -1,21 +1,21 @@
+import { ReactNode } from 'react';
 // styles
-import React from 'react';
 import { Container, Content, Text, Button } from './Modal.styles';
 
 interface ModalProps {
-  children: React.ReactNode;
+  children: ReactNode;
   onRestart: () => void;
 }
 
-const Modal = ({ children, onRestart }: ModalProps): JSX.Element => {
-  return (
-    <Container>
-      <Content>
-        <Text>{children}</Text>
-        <Button onClick={onRestart}>New Round</Button>
-      </Content>
-    </Container>
-  );
-};
+const Modal = ({ children, onRestart, ...rest }: ModalProps): JSX.Element => (
+  <Container data-testid="modalContainer" {...rest}>
+    <Content>
+      <Text data-testid="modalText">{children}</Text>
+      <Button data-testid="modalButton" onClick={onRestart}>
+        New Round
+      </Button>
+    </Content>
+  </Container>
+);
 
 export default Modal;

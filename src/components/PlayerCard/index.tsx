@@ -9,11 +9,11 @@ interface PlayerCardProps {
   mark?: Marks;
 }
 
-const PlayerCard = ({ name, score, mark }: PlayerCardProps): JSX.Element | null => {
+const PlayerCard = ({ name, score, mark, ...rest }: PlayerCardProps): JSX.Element | null => {
   if (!name || score === undefined) return null;
 
   return (
-    <Container data-testid="playerCardContainer">
+    <Container data-testid="playerCardContainer" {...rest}>
       <Name data-testid="playerCardName">
         {name}
         {mark && <span data-testid="playerCardMark">{`(${mark})`}</span>}

@@ -38,7 +38,6 @@ const Button = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-family: inherit;
   font-weight: bold;
   padding: 0.7em 1em;
   position: relative;
