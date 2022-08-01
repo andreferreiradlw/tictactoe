@@ -2,31 +2,29 @@ import { useState, useEffect, useMemo } from 'react';
 // types
 import type { Marks, CellType } from '../../types/Marks';
 // styles
-import { Container, Score, ScoreCards, Versus, PlayerInputContainer, PlayerInput } from './Game.styles';
+import { Container } from './Game.styles';
 // helpers
 import calculateWinner from '../../utils/winner';
 // components
-import PlayerCard from '../PlayerCard';
+import ScorePanel from '../ScorePanel';
 import Subheader from '../Subheader';
 import Board from '../Board';
 import Modal from '../Modal';
 // sounds
 import Click from '../../sounds/sounds_click.wav';
 import GameOver from '../../sounds/sounds_game_over.wav';
-// icons
-import { ReactComponent as EnterKey } from '../../icons/enter_key.svg';
 
 const TicTacToe = (): JSX.Element => {
   // players
-  const [playerOne, setPlayerOne] = useState<string | null>(null);
-  const [playerTwo, setPlayerTwo] = useState<string | null>(null);
+  const [playerOne, setPlayerOne] = useState<string>();
+  const [playerTwo, setPlayerTwo] = useState<string>();
   // scores
   const [playerOneScore, setPlayerOneScore] = useState(0);
   const [playerTwoScore, setPlayerTwoScore] = useState(0);
   const [ties, setTies] = useState(0);
   // game
   const [cells, setCells] = useState<CellType>(Array(9).fill(null));
-  const [currentPlayer, setCurrentPlayer] = useState<string | null>(null);
+  const [currentPlayer, setCurrentPlayer] = useState<string>('');
   const [winner, setWinner] = useState<string | null>(null);
   // sounds
   const clickSound = new Audio(Click);
@@ -34,7 +32,8 @@ const TicTacToe = (): JSX.Element => {
 
   const isBoardFull = (board: CellType): boolean => !board.includes(null);
 
-  const togglePlayer = (curr: string | null): string | null => (curr === playerOne ? playerTwo : playerOne);
+  const togglePlayer = (curr: string): string =>
+    playerOne && playerTwo ? (curr === playerOne ? playerTwo : playerOne) : '';
 
   const restartGame = () => {
     setCells(Array(9).fill(null));
@@ -79,36 +78,16 @@ const TicTacToe = (): JSX.Element => {
 
   return (
     <Container data-testid="gameContainer">
-      <Score>
-        <ScoreCards>
-          {playerOne ? (
-            <PlayerCard name={playerOne} score={playerOneScore} mark="X" />
-          ) : (
-            <PlayerInputContainer>
-              <PlayerInput
-                type="text"
-                placeholder="Player One"
-                onKeyDown={e => e.key === 'Enter' && setPlayerOne(e.target.value)}
-              />
-              <EnterKey />
-            </PlayerInputContainer>
-          )}
-          {!(playerOne && playerTwo) ? <Versus>VS</Versus> : <PlayerCard name="Ties" score={ties} />}
-          {playerTwo ? (
-            <PlayerCard name={playerTwo} score={playerTwoScore} mark="O" />
-          ) : (
-            <PlayerInputContainer>
-              <PlayerInput
-                type="text"
-                placeholder="Player Two"
-                onKeyDown={e => e.key === 'Enter' && setPlayerTwo(e.target.value)}
-              />
-              <EnterKey />
-            </PlayerInputContainer>
-          )}
-        </ScoreCards>
-        {!(playerOne && playerTwo) && `Player One goes first`}
-      </Score>
+      <ScorePanel
+        playerOne={playerOne}
+        playerOneScore={playerOneScore}
+        onPlayerOneSelect={name => setPlayerOne(name)}
+        playerTwo={playerTwo}
+        playerTwoScore={playerTwoScore}
+        onPlayerTwoSelect={name => setPlayerTwo(name)}
+        ties={ties}
+        data-testid="gameScorePanel"
+      />
 
       {playerOne && playerTwo && (
         <>

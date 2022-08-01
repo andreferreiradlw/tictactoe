@@ -5,13 +5,13 @@ import { ReactComponent as RestartIcon } from '../../icons/restart.svg';
 import { ReactComponent as XMarkIcon } from '../../icons/x_mark.svg';
 import { ReactComponent as OMarkIcon } from '../../icons/o_mark.svg';
 
-interface Subheader {
+interface SubheaderProps {
   playerName: string | null;
   isPlayerOne: boolean;
   onRestart: () => void;
 }
 
-const Subheader = ({ playerName, isPlayerOne, onRestart, ...rest }: Subheader): JSX.Element | null => {
+const Subheader = ({ playerName, isPlayerOne, onRestart, ...rest }: SubheaderProps): JSX.Element | null => {
   if (!playerName) return null;
 
   return (
