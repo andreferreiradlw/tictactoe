@@ -1,32 +1,32 @@
 import { useState, useEffect, useMemo } from 'react';
 // types
-import type { CellType } from './types/Marks';
+import type { Marks, CellType } from '../../types/Marks';
 // styles
 import {
   Container,
   Score,
   ScoreCards,
+  Versus,
   PlayerInputContainer,
   PlayerInput,
   SubHeader,
   CurrentTurn,
   RestartBtn,
-  Board,
 } from './Game.styles';
 // helpers
-import calculateWinner from './utils/winner';
+import calculateWinner from '../../utils/winner';
 // components
-import PlayerCard from './components/PlayerCard';
-import BoardCell from './components/BoardCell';
-import Modal from './components/Modal';
+import PlayerCard from '../PlayerCard';
+import Board from '../Board';
+import Modal from '../Modal';
 // sounds
-import Click from './sounds/sounds_click.wav';
-import GameOver from './sounds/sounds_game_over.wav';
+import Click from '../../sounds/sounds_click.wav';
+import GameOver from '../../sounds/sounds_game_over.wav';
 // icons
-import { ReactComponent as EnterKey } from './icons/enter_key.svg';
-import { ReactComponent as XMarkIcon } from './icons/x_mark.svg';
-import { ReactComponent as OMarkIcon } from './icons/o_mark.svg';
-import { ReactComponent as RestartIcon } from './icons/restart.svg';
+import { ReactComponent as EnterKey } from '../../icons/enter_key.svg';
+import { ReactComponent as XMarkIcon } from '../../icons/x_mark.svg';
+import { ReactComponent as OMarkIcon } from '../../icons/o_mark.svg';
+import { ReactComponent as RestartIcon } from '../../icons/restart.svg';
 
 const TicTacToe = (): JSX.Element => {
   // players
@@ -44,8 +44,6 @@ const TicTacToe = (): JSX.Element => {
   const clickSound = new Audio(Click);
   const gameOverSound = new Audio(GameOver);
 
-  const currentSymbol = currentPlayer === playerOne ? 'X' : 'O';
-
   const isBoardFull = (board: CellType): boolean => !board.includes(null);
 
   const togglePlayer = (curr: string | null): string | null => (curr === playerOne ? playerTwo : playerOne);
@@ -56,6 +54,17 @@ const TicTacToe = (): JSX.Element => {
   };
 
   const winnerCheck = useMemo(() => calculateWinner(cells), [cells]);
+
+  const onCellClick = (cellValue: Marks, cellIndex: number) => {
+    // check if suqare already has value
+    if (cellValue !== null || winner) return;
+    // sounds
+    clickSound.play();
+    // update board cells
+    const updatedCells = [...cells];
+    updatedCells[cellIndex] = currentPlayer === playerOne ? 'X' : 'O';
+    setCells(updatedCells);
+  };
 
   useEffect(() => {
     // handle game logic
@@ -74,14 +83,14 @@ const TicTacToe = (): JSX.Element => {
       // toggle player
       setCurrentPlayer(togglePlayer(currentPlayer));
     }
-  }, [cells]);
+  }, [winnerCheck, cells]);
 
   useEffect(() => {
     if (!!playerOne && !!playerTwo) setCurrentPlayer(playerOne); // player one starts first
   }, [playerOne, playerTwo]);
 
   return (
-    <Container>
+    <Container data-testid="gameContainer">
       <Score>
         <ScoreCards>
           {playerOne ? (
@@ -96,7 +105,7 @@ const TicTacToe = (): JSX.Element => {
               <EnterKey />
             </PlayerInputContainer>
           )}
-          {!(playerOne && playerTwo) ? 'VS' : <PlayerCard name="Ties" score={ties} />}
+          {!(playerOne && playerTwo) ? <Versus>VS</Versus> : <PlayerCard name="Ties" score={ties} />}
           {playerTwo ? (
             <PlayerCard name={playerTwo} score={playerTwoScore} mark="O" />
           ) : (
@@ -125,24 +134,7 @@ const TicTacToe = (): JSX.Element => {
             </RestartBtn>
           </SubHeader>
           {/** board */}
-          <Board>
-            {cells?.map((cell, i) => (
-              <BoardCell
-                key={`board-cell-${i}`}
-                onClick={() => {
-                  // check if suqare already has value
-                  if (cells[i] !== null || winner) return;
-                  // sounds
-                  clickSound.play();
-                  // update board cells
-                  const updatedCells = [...cells];
-                  updatedCells[i] = currentSymbol;
-                  setCells(updatedCells);
-                }}
-                mark={cells[i]}
-              />
-            ))}
-          </Board>
+          <Board boardCells={cells} onCellClick={onCellClick} />
           {/** winner modal */}
           {winner && <Modal onRestart={restartGame}>{`${winner} takes the win!`}</Modal>}
           {/** tie modal */}

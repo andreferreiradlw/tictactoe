@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { borderStyle } from './styles/borders';
 
 const Container = styled.main`
   max-width: 46rem;
@@ -17,11 +16,17 @@ const Score = styled.section`
 `;
 
 const ScoreCards = styled.div`
-  align-items: stretch;
+  align-items: center;
   display: grid;
   gap: 2rem;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   justify-content: center;
+`;
+
+const Versus = styled.p`
+  font-family: 'Square Peg', cursive;
+  font-size: 4em;
+  font-weight: bold;
 `;
 
 const PlayerInputContainer = styled.div`
@@ -100,14 +105,4 @@ const RestartBtn = styled.button`
   }
 `;
 
-const Board = styled.section`
-  aspect-ratio: 1 / 1;
-  display: grid;
-  grid-gap: 2.5em;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: repeat(3, minmax(0, 1fr));
-  height: min(90vw, 46em);
-  margin: 0 auto;
-`;
-
-export { Container, Score, ScoreCards, PlayerInputContainer, PlayerInput, SubHeader, CurrentTurn, RestartBtn, Board };
+export { Container, Score, ScoreCards, Versus, PlayerInputContainer, PlayerInput, SubHeader, CurrentTurn, RestartBtn };
