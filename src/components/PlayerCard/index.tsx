@@ -10,7 +10,7 @@ interface PlayerCardProps {
 }
 
 const PlayerCard = ({ name, score, mark }: PlayerCardProps): JSX.Element | null => {
-  if (!name || !score) return null;
+  if (!name || score === undefined) return null;
 
   return (
     <Container data-testid="playerCardContainer">

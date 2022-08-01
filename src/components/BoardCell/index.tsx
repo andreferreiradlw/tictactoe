@@ -10,31 +10,27 @@ import { ReactComponent as XMarkIconOutline } from '../../icons/x_mark_outline.s
 import { ReactComponent as OMarkIconOutline } from '../../icons/o_mark_outline.svg';
 
 interface BoardCellProps {
-  mark: Marks;
+  mark?: Marks;
 }
 
-const BoardCell = ({
-  mark,
-  children,
-  ...rest
-}: BoardCellProps & ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element => {
+const BoardCell = ({ mark, ...rest }: BoardCellProps & ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element => {
   const [isHovering, setIsHovering] = useState(false);
 
-  //   const renderMark = () => {
-  //     if (!mark) return null;
-  //     else if (mark === 'X' && isHovering) return <XMarkIconOutline />;
-  //     else if (mark === 'X') return <XMarkIcon />;
-  //     else if (mark === 'O' && isHovering) return <OMarkIconOutline />;
-  //     else return <OMarkIcon />;
-  //   };
-
-  const renderMark = () => {
-    if (mark === 'X') return isHovering ? <XMarkIconOutline /> : <XMarkIcon />;
-    if (mark === 'O') return isHovering ? <OMarkIconOutline /> : <OMarkIcon />;
+  const renderMark = (): JSX.Element | null => {
+    if (mark === 'X')
+      return isHovering ? <XMarkIconOutline data-testid="cellXMarkOutline" /> : <XMarkIcon data-testid="cellXMark" />;
+    if (mark === 'O')
+      return isHovering ? <OMarkIconOutline data-testid="cellOMarkOutline" /> : <OMarkIcon data-testid="cellOMark" />;
+    return null;
   };
 
   return (
-    <Cell onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)} {...rest}>
+    <Cell
+      data-testid="cellContainer"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      {...rest}
+    >
       {renderMark()}
     </Cell>
   );
