@@ -23,6 +23,7 @@ const Name = styled.p`
 `;
 
 const Score = styled.p`
+  font-family: 'Square Peg', cursive;
   font-size: 2rem;
   font-weight: bold;
 
