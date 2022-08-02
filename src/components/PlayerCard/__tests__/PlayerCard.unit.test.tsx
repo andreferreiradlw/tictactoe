@@ -13,14 +13,16 @@ const renderPlayerCard = (props: any = {}) => {
   const Container = screen.queryByTestId('playerCardContainer');
   const Name = screen.queryByTestId('playerCardName');
   const Score = screen.queryByTestId('playerCardScore');
-  const Mark = screen.queryByTestId('playerCardMark');
+  const XIcon = screen.queryByTestId('playerCardXIcon');
+  const OIcon = screen.queryByTestId('playerCardOIcon');
 
   return {
     ...screen,
     Container,
     Name,
     Score,
-    Mark,
+    XIcon,
+    OIcon,
   };
 };
 
@@ -53,16 +55,40 @@ describe('PlayerCard', () => {
     expect(Name).toHaveTextContent(data.name);
   });
 
-  it('Should not render the mark if not provided', () => {
-    const { Mark } = renderPlayerCard({ mark: null });
+  it('Should not render the X icon if mark is null', () => {
+    const { XIcon } = renderPlayerCard({ mark: null });
 
-    expect(Mark).not.toBeInTheDocument();
+    expect(XIcon).not.toBeInTheDocument();
   });
 
-  it('Should render the correct mark when provided', () => {
-    const { Mark } = renderPlayerCard();
+  it('Should render the X icon if mark is X', () => {
+    const { XIcon } = renderPlayerCard();
 
-    expect(Mark).toHaveTextContent(`(${data.mark})`);
+    expect(XIcon).toBeInTheDocument();
+  });
+
+  it('Should not render the O icon if mark is X', () => {
+    const { OIcon } = renderPlayerCard();
+
+    expect(OIcon).not.toBeInTheDocument();
+  });
+
+  it('Should not render the O icon if mark is null', () => {
+    const { OIcon } = renderPlayerCard({ mark: null });
+
+    expect(OIcon).not.toBeInTheDocument();
+  });
+
+  it('Should render the O icon if mark is O', () => {
+    const { OIcon } = renderPlayerCard({ mark: 'O' });
+
+    expect(OIcon).toBeInTheDocument();
+  });
+
+  it('Should not render the X icon if mark is O', () => {
+    const { XIcon } = renderPlayerCard({ mark: 'O' });
+
+    expect(XIcon).not.toBeInTheDocument();
   });
 
   it('Should render the provided score', () => {

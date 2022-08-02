@@ -14,7 +14,7 @@ describe('Utils | calculateWinner', () => {
     expect(calculateWinner(cells)).toBe(null);
   });
 
-  it('Should return the corretc winner when board is full', () => {
+  it('Should return the correct winner when board is full', () => {
     const cells: CellType = ['X', 'O', 'X', 'O', 'O', 'X', 'X', 'O', 'X'];
 
     expect(calculateWinner(cells)).toBe('O');

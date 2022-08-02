@@ -14,6 +14,17 @@ const Container = styled.div`
   text-align: center;
 `;
 
+const Details = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+
+  svg {
+    width: 1.5em;
+  }
+`;
+
 const Name = styled.p`
   font-size: 1em;
 
@@ -32,4 +43,4 @@ const Score = styled.p`
   }
 `;
 
-export { Container, Name, Score };
+export { Container, Details, Name, Score };

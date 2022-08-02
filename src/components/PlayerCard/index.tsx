@@ -1,7 +1,10 @@
 // types
 import type { Marks } from '../../types/Marks';
 // styles
-import { Container, Name, Score } from './PlayerCard.styles';
+import { Container, Details, Name, Score } from './PlayerCard.styles';
+// icons
+import { ReactComponent as XMarkIcon } from '../../icons/x_mark.svg';
+import { ReactComponent as OMarkIcon } from '../../icons/o_mark.svg';
 
 interface PlayerCardProps {
   name: string;
@@ -14,10 +17,12 @@ const PlayerCard = ({ name, score, mark, ...rest }: PlayerCardProps): JSX.Elemen
 
   return (
     <Container data-testid="playerCardContainer" {...rest}>
-      <Name data-testid="playerCardName">
-        {name}
-        {mark && <span data-testid="playerCardMark">{`(${mark})`}</span>}
-      </Name>
+      <Details>
+        <Name data-testid="playerCardName">{name}</Name>
+        {mark &&
+          (mark === 'X' ? <XMarkIcon data-testid="playerCardXIcon" /> : <OMarkIcon data-testid="playerCardOIcon" />)}
+      </Details>
+
       <Score data-testid="playerCardScore">{score}</Score>
     </Container>
   );

@@ -1,22 +1,33 @@
 import styled from 'styled-components';
 
 const Container = styled.section`
-  align-items: center;
+  align-items: stretch;
   display: flex;
   flex-direction: column;
   font-weight: bold;
-  gap: 2rem;
-  padding: 1em 1.4em;
+  gap: 2em;
+  padding: 1em 0;
   text-align: center;
   text-transform: uppercase;
+
+  @media screen and (min-width: 700px) {
+    align-items: center;
+  }
 `;
 
 const ScoreCards = styled.div`
-  align-items: center;
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
   justify-content: center;
+
+  @media screen and (min-width: 700px) {
+    display: grid;
+    align-items: center;
+    gap: 2.5em;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 `;
 
 const Versus = styled.p`
