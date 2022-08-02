@@ -6,7 +6,7 @@ const Container = styled.section`
   grid-gap: 2.5em;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: repeat(3, minmax(0, 1fr));
-  height: min(90vw, 46em);
+  height: min(90vw, 40em);
   margin: 0 auto;
 `;
 
