@@ -6,7 +6,6 @@ const Container = styled.section`
   flex-direction: column;
   font-weight: bold;
   gap: 2em;
-  padding: 1em 0;
   text-align: center;
   text-transform: uppercase;
 
@@ -27,6 +26,7 @@ const ScoreCards = styled.div`
     align-items: center;
     gap: 2.5em;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
   }
 `;
 
