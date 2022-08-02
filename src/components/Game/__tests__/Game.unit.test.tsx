@@ -46,6 +46,11 @@ describe('Game', () => {
 
 describe('Game | Second stage', () => {
   beforeEach(() => {
+    // mock audio
+    global.Audio = jest.fn().mockImplementation(() => ({
+      play: jest.fn(),
+    }));
+
     const { ScorePanel } = renderGame();
 
     if (ScorePanel) {

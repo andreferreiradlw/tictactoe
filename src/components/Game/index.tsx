@@ -4,7 +4,7 @@ import type { Marks, CellType } from '../../types/Marks';
 // styles
 import { Container } from './Game.styles';
 // helpers
-import calculateWinner from '../../utils/winner';
+import { isBoardFull, togglePlayer, calculateWinner } from '../../utils';
 // components
 import ScorePanel from '../ScorePanel';
 import Subheader from '../Subheader';
@@ -24,23 +24,18 @@ const TicTacToe = (): JSX.Element => {
   const [ties, setTies] = useState(0);
   // game
   const [cells, setCells] = useState<CellType>(Array(9).fill(null));
-  const [currentPlayer, setCurrentPlayer] = useState<string>('');
+  const [currentPlayer, setCurrentPlayer] = useState<string | null>(null);
   const [winner, setWinner] = useState<string | null>(null);
   // sounds
   const clickSound = new Audio(Click);
   const gameOverSound = new Audio(GameOver);
-
-  const isBoardFull = (board: CellType): boolean => !board.includes(null);
-
-  const togglePlayer = (curr: string): string =>
-    playerOne && playerTwo ? (curr === playerOne ? playerTwo : playerOne) : '';
+  // memo
+  const winnerCheck = useMemo(() => calculateWinner(cells), [cells]);
 
   const restartGame = () => {
     setCells(Array(9).fill(null));
     setWinner(null);
   };
-
-  const winnerCheck = useMemo(() => calculateWinner(cells), [cells]);
 
   const onCellClick = (cellValue: Marks, cellIndex: number) => {
     // check if suqare already has value
@@ -52,6 +47,10 @@ const TicTacToe = (): JSX.Element => {
     updatedCells[cellIndex] = currentPlayer === playerOne ? 'X' : 'O';
     setCells(updatedCells);
   };
+
+  useEffect(() => {
+    if (!!playerOne && !!playerTwo) setCurrentPlayer(playerOne); // player one starts first
+  }, [playerOne, playerTwo]);
 
   useEffect(() => {
     // handle game logic
@@ -66,15 +65,11 @@ const TicTacToe = (): JSX.Element => {
       // increment ties
       gameOverSound.play();
       setTies(prevTies => prevTies + 1);
-    } else {
+    } else if (currentPlayer && playerOne && playerTwo) {
       // toggle player
-      setCurrentPlayer(togglePlayer(currentPlayer));
+      setCurrentPlayer(togglePlayer(currentPlayer, playerOne, playerTwo));
     }
   }, [winnerCheck, cells]);
-
-  useEffect(() => {
-    if (!!playerOne && !!playerTwo) setCurrentPlayer(playerOne); // player one starts first
-  }, [playerOne, playerTwo]);
 
   return (
     <Container data-testid="gameContainer">

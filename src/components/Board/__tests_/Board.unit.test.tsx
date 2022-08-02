@@ -2,7 +2,7 @@ import { render, screen, within, fireEvent } from '@testing-library/react';
 import Board from '../index';
 
 const data = {
-  boardCells: ['X', 'O', 'X'],
+  boardCells: ['X', null, 'O', null, 'X', 'O', null, 'X', null],
   onCellClick: jest.fn(),
 };
 
@@ -64,6 +64,8 @@ describe('Board', () => {
     BoardCells && fireEvent.click(BoardCells[0]);
 
     expect(mockCellClick).toHaveBeenCalledTimes(1);
+    // args
+    expect(mockCellClick.mock.calls[0].length).toBe(2);
     // first arg
     expect(mockCellClick.mock.calls[0][0]).toBe(data.boardCells[0]);
     // second arg
