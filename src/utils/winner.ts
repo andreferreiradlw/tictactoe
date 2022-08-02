@@ -1,20 +1,25 @@
 import type { CellType } from '../types/Marks';
 
-const calculateWinner = (squares: CellType): null | string => {
+const calculateWinner = (cells: CellType): null | string => {
   const possibleLines = [
+    // horizontal
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
+    // vertical
     [0, 3, 6],
     [1, 4, 7],
     [2, 5, 8],
+    // diagonal
     [0, 4, 8],
     [2, 4, 6],
   ];
-  // go over all possibly winning lines and check if they consist of only X's/only O's
+  // go over all the possible line patterns in the array
+  // check if they all match
   for (let lines of possibleLines) {
     const [a, b, c] = lines;
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) return squares[a];
+    // return winner if the three cells match
+    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) return cells[a];
   }
   return null;
 };

@@ -1,7 +1,8 @@
 {
   "name": "tictactoe",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "homepage": "https://andreferreiradlw.github.io/tictactoe",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
